@@ -17,6 +17,7 @@ const ViewSplash = () => {
             <Drawer isOpen={isOpen} onClose={onClose} placement="left">
                 <DrawerOverlay />
                 <DrawerContent>
+                    <h1>Hey</h1>
                     <Navigation />
                 </DrawerContent>
             </Drawer>

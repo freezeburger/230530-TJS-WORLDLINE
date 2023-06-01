@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import { data, getData } from "../../core/service"
+/* import { data, getData } from "../../core/service" */
 import MenuBar from "../../components/MenuBar/MenuBar.jsx";
 import HeroImage from "../../components/HeroImage/HeroImage.jsx";
 import FilterBar from "../../components/FilterBar/FilterBar.jsx";
 import ProductList from "../../components/ProductList/ProductList.jsx";
 import { Drawer, DrawerContent, DrawerOverlay, useDisclosure } from "@chakra-ui/react";
 import Navigation from "../../components/Navigation/NAvigation";
+import { ActionTypes, store } from "../../core/store/index.js";
 
 const ViewHomeLegacy = () => {
     const [products, setProducts] = useState(data);
@@ -50,11 +51,16 @@ const ViewHome = () => {
         console.log("actionFilter");
     }
     const [filterValue, setFilterValue] = useState("");
-    const [products, setProducts] = useState(data);
+    const [products, setProducts] = useState( store.getState().products );
     const filteredProducts = !filterValue ? products : products.filter(product => product.title.toLowerCase().includes(filterValue));
 
     useEffect(() => {
-        getData().then(() => setProducts(prevProducts => [...data]))
+       /*  getData().then(() => setProducts(prevProducts => [...data])) */
+
+       store.dispatch({type:ActionTypes.PRODUCT_LIST_REQUEST});
+
+       store.subscribe( () => setProducts( store.getState().products ) )
+       
     }, []);
 
     return (
